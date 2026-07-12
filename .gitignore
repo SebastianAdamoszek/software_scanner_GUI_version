@@ -1,0 +1,35 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Local runtime output
+reports/
+logs/
+work/
+outputs/
+
+# PyInstaller build output
+build/
+dist/
+*.spec
+
+# Test/cache output
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Editor/system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# SQLite database
+*.db
+*.sqlite3
