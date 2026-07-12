@@ -1,10 +1,15 @@
 import os
 from pathlib import Path
+
 import tkinter as tk
 from tkinter import ttk
-from inventory.scanner import scan_installed_programs
+
+from inventory.database import create_tables, save_programs
 from inventory.gui import state
-print("IMPORT SCANNER OK")
+from inventory.reports import save_reports
+from inventory.scanner import scan_installed_programs
+from inventory.summary import build_summary
+from inventory.system_info import get_system_info
 
 def run_scan_gui(status_label):
 
@@ -16,8 +21,49 @@ def run_scan_gui(status_label):
 
     state.programs = scan_installed_programs()
 
+    if not state.programs:
+        status_label.config(
+            text="Status: Nie znaleziono programów"
+        )
+        return
+
+
+    system_info = get_system_info()
+
+
+    summary = build_summary(
+        state.programs,
+        system_info,
+        filter_info={
+            "active": False,
+            "search": "",
+            "publisher": "",
+            "missing_version_only": False,
+        },
+        total_before_filters=len(state.programs),
+    )
+
+
+    saved_files, report_dir, database_path = save_reports(
+        state.programs,
+        Path("reports"),
+        "all",
+        summary,
+    )
+
+    print(report_dir)
+    print(database_path)
+
+    create_tables(database_path)
+
+    save_programs(
+        state.programs,
+        database_path,
+    )
+
+
     status_label.config(
-        text=f"Status: Znaleziono programów: {len(state.programs)}"
+        text=f"Status: Zapisano raport ({len(state.programs)} programów)"
     )
 
 
@@ -51,7 +97,7 @@ def create_window():
     window = tk.Tk()
 
     window.title("Software Scanner")
-    window.geometry("700x500")
+    window.geometry("700x700")
 
 
     # ===== HEADER =====

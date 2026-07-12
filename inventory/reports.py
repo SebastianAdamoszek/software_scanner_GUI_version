@@ -15,23 +15,48 @@ REPORT_FIELDS = [
 
 
 def save_reports(programs, output_dir, report_format, summary):
+
     timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+
     run_dir = output_dir / timestamp
     run_dir.mkdir(parents=True, exist_ok=True)
+
     base_name = f"software_inventory_{timestamp}"
 
+    database_path = run_dir / f"{base_name}.db"
+
     formats = ["txt", "csv", "json"] if report_format == "all" else [report_format]
+
     saved_files = []
 
     for current_format in formats:
         if current_format == "txt":
-            saved_files.append(save_txt(programs, run_dir / f"{base_name}.txt", summary))
-        elif current_format == "csv":
-            saved_files.append(save_csv(programs, run_dir / f"{base_name}.csv"))
-        elif current_format == "json":
-            saved_files.append(save_json(programs, run_dir / f"{base_name}.json", summary))
+            saved_files.append(
+                save_txt(
+                    programs,
+                    run_dir / f"{base_name}.txt",
+                    summary
+                )
+            )
 
-    return saved_files, run_dir, base_name
+        elif current_format == "csv":
+            saved_files.append(
+                save_csv(
+                    programs,
+                    run_dir / f"{base_name}.csv"
+                )
+            )
+
+        elif current_format == "json":
+            saved_files.append(
+                save_json(
+                    programs,
+                    run_dir / f"{base_name}.json",
+                    summary
+                )
+            )
+
+    return saved_files, run_dir, database_path
 
 
 def save_txt(programs, file_path, summary):
