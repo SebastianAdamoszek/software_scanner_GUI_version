@@ -1,3 +1,5 @@
+import os
+from pathlib import Path
 import tkinter as tk
 from tkinter import ttk
 from inventory.scanner import scan_installed_programs
@@ -34,6 +36,14 @@ def refresh_program_table(table):
                 program["publisher"],
             )
         )
+
+
+def open_reports_folder():
+
+    reports_path = Path("reports")
+
+    if reports_path.exists():
+        os.startfile(reports_path)
 
 
 def create_window():
@@ -103,6 +113,16 @@ def create_window():
     )
 
     database_button.pack(pady=10)
+
+    reports_button = tk.Button(
+        button_frame,
+        text="Otwórz katalog raportów",
+        width=25,
+        height=2,
+        command=open_reports_folder
+)
+
+    reports_button.pack(pady=10)
 
 
     # ===== PROGRAM TABLE =====
