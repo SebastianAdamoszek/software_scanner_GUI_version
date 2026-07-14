@@ -72,18 +72,21 @@ def refresh_program_table(table):
     for item in table.get_children():
         table.delete(item)
 
-    for program in state.programs:
-        table.insert(
-            "",
-            "end",
-            values=(
-                program["name"],
-                program["version"],
-                program["publisher"],
-                program["install_date"],
-            )
-        )
-
+    # for program in state.programs:
+    #     table.insert(
+    #         "",
+    #         "end",
+    #         values=(
+    #             program["name"],
+    #             program["version"],
+    #             program["publisher"],
+    #             program["install_date"],
+    #         )
+    #     )
+    fill_table(
+    table,
+    state.programs
+)
 
 def open_reports_folder():
 
@@ -116,6 +119,46 @@ def sort_column(tree, col, reverse):
     )
 
 
+def fill_table(table, programs):
+    for item in table.get_children():
+        table.delete(item)
+
+    for program in programs:
+        table.insert(
+            "",
+            "end",
+            values=(
+                program["name"],
+                program["version"],
+                program["publisher"],
+                program["install_date"],
+            )
+        )
+
+
+def search_programs(search_var, table):
+
+    text = search_var.get().lower()
+
+    if not text:
+        fill_table(
+            table,
+            state.programs
+        )
+        return
+
+
+    filtered = [
+        program
+        for program in state.programs
+        if text in program["name"].lower()
+    ]
+
+
+    fill_table(
+        table,
+        filtered
+    )
 
 
 def create_window():
@@ -123,7 +166,7 @@ def create_window():
     window = tk.Tk()
 
     window.title("Software Scanner")
-    window.geometry("800x800")
+    window.geometry("800x900")
 
 
     # ===== HEADER =====
@@ -166,17 +209,6 @@ def create_window():
 
     scan_button.pack(pady=10)
 
-
-    reports_button = tk.Button(
-        button_frame,
-        text="Raporty",
-        width=25,
-        height=2
-    )
-
-    reports_button.pack(pady=10)
-
-
     database_button = tk.Button(
         button_frame,
         text="Baza danych",
@@ -195,6 +227,52 @@ def create_window():
 )
 
     reports_button.pack(pady=10)
+
+
+
+        # ===== SEARCH =====
+
+    search_frame = ttk.Frame(window)
+
+    search_frame.pack(
+        padx=20,
+        pady=10,
+        fill="x"
+    )
+
+
+    search_var = tk.StringVar()
+
+    search_var.trace_add(
+        "write",
+        lambda *args: search_programs(
+                search_var,
+                program_table
+        )
+    )
+
+
+    search_label = ttk.Label(
+        search_frame,
+        text="Szukaj:"
+    )
+
+    search_label.pack(
+        side="left",
+        padx=5
+    )
+
+
+    search_entry = ttk.Entry(
+        search_frame,
+        textvariable=search_var,
+        width=40
+    )
+
+    search_entry.pack(
+        side="left",
+        padx=5
+    )
 
 
     # ===== PROGRAM TABLE =====
@@ -266,6 +344,8 @@ def create_window():
         fill="both",
         expand=True
     )
+
+
 
 
     # ===== STATUS =====
