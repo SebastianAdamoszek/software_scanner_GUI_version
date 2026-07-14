@@ -94,7 +94,7 @@ def normalize_program(item):
         "name": clean_text(item.get("DisplayName")),
         "version": clean_text(item.get("DisplayVersion")),
         "publisher": clean_text(item.get("Publisher")),
-        "install_date": clean_text(item.get("InstallDate")),
+        "install_date": format_install_date(clean_text(item.get("InstallDate"))),
         "install_location": clean_text(item.get("InstallLocation")),
         "uninstall_string": clean_text(item.get("UninstallString")),
     }
@@ -105,6 +105,12 @@ def clean_text(value):
         return ""
     return str(value).strip()
 
+
+def format_install_date(date):
+    if date and len(date) == 8:
+        return f"{date[:4]}-{date[4:6]}-{date[6:]}"
+    
+    return date
 
 def remove_duplicates(programs):
     unique = {}

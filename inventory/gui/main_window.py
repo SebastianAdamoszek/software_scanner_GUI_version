@@ -80,6 +80,7 @@ def refresh_program_table(table):
                 program["name"],
                 program["version"],
                 program["publisher"],
+                program["install_date"],
             )
         )
 
@@ -92,12 +93,37 @@ def open_reports_folder():
         os.startfile(reports_path)
 
 
+def sort_column(tree, col, reverse):
+    data = [
+        (tree.set(item, col), item)
+        for item in tree.get_children("")
+    ]
+
+    data.sort(
+        reverse=reverse
+    )
+
+    for index, (_, item) in enumerate(data):
+        tree.move(item, "", index)
+
+    tree.heading(
+        col,
+        command=lambda: sort_column(
+            tree,
+            col,
+            not reverse
+        )
+    )
+
+
+
+
 def create_window():
 
     window = tk.Tk()
 
     window.title("Software Scanner")
-    window.geometry("700x700")
+    window.geometry("800x800")
 
 
     # ===== HEADER =====
@@ -176,7 +202,8 @@ def create_window():
     columns = (
         "name",
         "version",
-        "publisher"
+        "publisher",
+        "install_date"
     )
 
     program_table = ttk.Treeview(
@@ -201,37 +228,37 @@ def create_window():
         fill="y"
     )
 
-    program_table.heading(
-        "name",
-        text="Program"
+    headers = {
+        "name": "Program",
+        "version": "Version",
+        "publisher": "Publisher",
+        "install_date": "Install Date",
+    }
+
+    for column, title in headers.items():
+        program_table.heading(
+            column,
+            text=title,
+            command=lambda col=column: sort_column(
+                program_table,
+                col,
+                False
+        )
     )
 
-    program_table.heading(
-        "version",
-        text="Version"
+
+    widths = {
+        "name": 250,
+        "version": 100,
+        "publisher": 200,
+        "install_date": 120,
+    }
+
+    for column, width in widths.items():
+        program_table.column(
+            column,
+            width=width
     )
-
-    program_table.heading(
-        "publisher",
-        text="Publisher"
-    )
-
-
-    program_table.column(
-        "name",
-        width=250
-    )
-
-    program_table.column(
-        "version",
-        width=100
-    )
-
-    program_table.column(
-        "publisher",
-        width=200
-    )
-
 
     program_table.pack(
         padx=20,
