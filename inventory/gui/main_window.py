@@ -137,7 +137,7 @@ def fill_table(table, programs):
         )
 
 
-def search_programs(search_var, table):
+def search_programs(search_var, table, count_label):
 
     text = search_var.get().lower()
 
@@ -146,6 +146,11 @@ def search_programs(search_var, table):
             table,
             state.programs
         )
+
+        count_label.config(
+            text=f"Znaleziono: {len(state.programs)} z {len(state.programs)}"
+        )
+
         return
 
 
@@ -162,9 +167,14 @@ def search_programs(search_var, table):
     )
 
 
+    count_label.config(
+        text=f"Znaleziono: {len(filtered)} z {len(state.programs)}"
+    )
+
+
 import json
 
-def load_report(table, status_label,search_var):
+def load_report(table, status_label,search_var, count_label):
 
     filename = filedialog.askopenfilename(
         title="Wybierz plik raportu",
@@ -196,7 +206,8 @@ def load_report(table, status_label,search_var):
 
         search_programs(
             search_var,
-            table
+            table,
+            count_label
         )
 
         report_name = Path(filename).stem
@@ -257,7 +268,7 @@ def create_window():
     command=lambda:(
         run_scan_gui(status),
         refresh_program_table(program_table),
-        search_programs(search_var, program_table)
+        search_programs(search_var, program_table, count_label)
     )
 )
 
@@ -270,7 +281,7 @@ def create_window():
         text="Wczytaj raport",
         width=25,
         height=2,
-        command=lambda: load_report(program_table, status, search_var)
+        command=lambda: load_report(program_table, status, search_var, count_label)
     )
 
     load_button.pack(pady=10)
@@ -313,7 +324,8 @@ def create_window():
         "write",
         lambda *args: search_programs(
                 search_var,
-                program_table
+                program_table,
+                count_label
         )
     )
 
@@ -328,7 +340,6 @@ def create_window():
         padx=5
     )
 
-
     search_entry = ttk.Entry(
         search_frame,
         textvariable=search_var,
@@ -338,6 +349,16 @@ def create_window():
     search_entry.pack(
         side="left",
         padx=5
+    )
+
+    count_label = ttk.Label(
+        search_frame,
+        text="Znaleziono: 0"
+    )
+
+    count_label.pack(
+        side="left",
+        padx=10
     )
 
 
