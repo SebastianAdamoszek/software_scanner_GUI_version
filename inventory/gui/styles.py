@@ -6,46 +6,43 @@ def setup_style():
 
     style = ttk.Style()
 
+    style.theme_use("clam")
+
     style.configure(
-        "TButton",
+        "Main.TButton",
         font=("Arial", 11),
-        padding=8
+        padding=(20, 10)
     )
 
-    style.configure(
-        "Treeview",
-        font=("Arial", 10),
-        rowheight=28
-    )
-
-    style.configure(
-        "Treeview.Heading",
-        font=("Arial", 11, "bold")
+    style.map(
+        "Main.TButton",
+        relief=[
+            ("pressed", "sunken"),
+            ("active", "raised")
+        ],
+        background=[
+            ("active", "#cccccc")
+        ]
     )
 
 
 def setup_button(button):
 
-    normal_color = "#eeeeee"
-    hover_color = "#d0e8ff"
-
     button.config(
-        cursor="hand2",
-        bg=normal_color,
-        activebackground=hover_color
+        cursor="hand2"
     )
 
     button.bind(
         "<Enter>",
-        lambda e: button.config(
-            bg=hover_color
+        lambda e: button.configure(
+            cursor="hand2"
         )
     )
 
     button.bind(
         "<Leave>",
-        lambda e: button.config(
-            bg=normal_color
+        lambda e: button.configure(
+            cursor="arrow"
         )
     )
 

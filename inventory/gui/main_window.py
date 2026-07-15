@@ -264,64 +264,55 @@ def create_window():
 
     # ===== BUTTONS =====
 
-    button_frame = tk.Frame(window)
+    button_frame = ttk.Frame(window)
 
     button_frame.pack(pady=30)
 
 
-    scan_button = tk.Button(
-    button_frame,
-    text="Skanuj komputer",
-    width=25,
-    height=2,
-    command=lambda:(
-        run_scan_gui(status),
-        refresh_program_table(program_table),
-        search_programs(search_var, program_table, count_label)
+    scan_button = ttk.Button(
+        button_frame,
+        text="Skanuj komputer",
+        command=lambda: (
+            run_scan_gui(status),
+            refresh_program_table(program_table),
+            search_programs(search_var, program_table, count_label)
+        ),
+        style="Main.TButton"
     )
-)
-
-    setup_button(scan_button)
 
     scan_button.pack(pady=10)
 
 
-
-    load_button = tk.Button(
+    load_button = ttk.Button(
         button_frame,
         text="Wczytaj raport",
-        width=25,
-        height=2,
-        command=lambda: load_report(program_table, status, search_var, count_label),
+        command=lambda: load_report(
+            program_table,
+            status,
+            search_var,
+            count_label
+        ),
+        style="Main.TButton"
     )
-    
-    setup_button(load_button)
 
     load_button.pack(pady=10)
 
-    database_button = tk.Button(
+
+    database_button = ttk.Button(
         button_frame,
         text="Baza danych",
-        width=25,
-        height=2
-        
+        style="Main.TButton"
     )
-
-    setup_button(database_button)
-
 
     database_button.pack(pady=10)
 
-    reports_button = tk.Button(
+
+    reports_button = ttk.Button(
         button_frame,
         text="Otwórz katalog raportów",
-        width=25,
-        height=2,
-        command=open_reports_folder
-        
-)
-
-    setup_button(reports_button)
+        command=open_reports_folder,
+        style="Main.TButton"
+    )
 
     reports_button.pack(pady=10)
 
