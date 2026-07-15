@@ -12,41 +12,40 @@ def setup_style():
 
     style.configure(
         "Main.TButton",
+        background="#acacac",
+        foreground="black",
         font=("Segoe UI", 11),
-        padding=(10, 8)
+        padding=(15, 8)
     )
 
     style.map(
         "Main.TButton",
-        relief=[
-            ("pressed", "sunken"),
-            ("active", "raised")
-        ],
         background=[
-            ("active", "#cccccc")
+            ("pressed", "#9da0a3"),
+            ("active", "#becaae")
         ]
     )
 
 
-def setup_button(button):
+# def setup_button(button):
 
-    button.config(
-        cursor="hand2"
-    )
+#     button.config(
+#         cursor="hand2"
+#     )
 
-    button.bind(
-        "<Enter>",
-        lambda e: button.configure(
-            cursor="hand2"
-        )
-    )
+#     button.bind(
+#         "<Enter>",
+#         lambda e: button.configure(
+#             cursor="hand2"
+#         )
+#     )
 
-    button.bind(
-        "<Leave>",
-        lambda e: button.configure(
-            cursor="arrow"
-        )
-    )
+#     button.bind(
+#         "<Leave>",
+#         lambda e: button.configure(
+#             cursor="arrow"
+#         )
+#     )
 
 
 def center_window(window, width, height):

@@ -12,7 +12,7 @@ from inventory.summary import build_summary
 from inventory.system_info import get_system_info
 from inventory.gui.styles import (
     setup_style, 
-    setup_button,
+    # setup_button,
     center_window
 )
 
@@ -232,6 +232,8 @@ def load_report(table, status_label,search_var, count_label):
 
 def create_window():
 
+    BUTTON_WIDTH = 30
+
     window = tk.Tk()
 
     setup_style()
@@ -259,19 +261,21 @@ def create_window():
     title = ttk.Label(
         window,
         text="Software Scanner",
-        font=("Arial", 24, "bold")
+        font=("Arial", 24, "bold"),
+        anchor="center"
     )
 
-    title.pack(pady=15)
+    title.pack(pady=15, ipadx=20, ipady=10)
 
 
     subtitle = ttk.Label(
         window,
         text="System inventory tool",
-        font=("Segoe UI", 12)
+        font=("Segoe UI", 12),
+        anchor="center"
     )
 
-    subtitle.pack()
+    subtitle.pack(ipadx=20, ipady=10, )
 
 
     # ===== BUTTONS =====
@@ -284,49 +288,53 @@ def create_window():
     scan_button = ttk.Button(
         button_frame,
         text="Skanuj komputer",
+        style="Main.TButton",
         command=lambda: (
             run_scan_gui(status),
             refresh_program_table(program_table),
             search_programs(search_var, program_table, count_label)
         ),
-        style="Main.TButton"
+        width=BUTTON_WIDTH,
     )
 
-    scan_button.pack(pady=10)
+    scan_button.pack(padx=10,pady=10)
 
 
     load_button = ttk.Button(
         button_frame,
         text="Wczytaj raport",
+        style="Main.TButton",
         command=lambda: load_report(
             program_table,
             status,
             search_var,
             count_label
         ),
-        style="Main.TButton"
+        width=BUTTON_WIDTH,
     )
 
-    load_button.pack(pady=10)
+    load_button.pack(padx=10,pady=10)
 
 
     database_button = ttk.Button(
         button_frame,
         text="Baza danych",
+        width=BUTTON_WIDTH,
         style="Main.TButton"
     )
 
-    database_button.pack(pady=10)
+    database_button.pack(padx=10,pady=10)
 
 
     reports_button = ttk.Button(
         button_frame,
         text="Katalog raportów",
+        style="Main.TButton",
         command=open_reports_folder,
-        style="Main.TButton"
+        width=BUTTON_WIDTH,
     )
 
-    reports_button.pack(pady=10)
+    reports_button.pack(padx=10, pady=10)
 
 
 
@@ -478,4 +486,4 @@ def create_window():
 
 
 if __name__ == "__main__":
-    start_gui()
+    start_gui() # type: ignore
