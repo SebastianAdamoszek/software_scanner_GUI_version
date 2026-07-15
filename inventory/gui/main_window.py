@@ -10,6 +10,11 @@ from inventory.reports import save_reports
 from inventory.scanner import scan_installed_programs
 from inventory.summary import build_summary
 from inventory.system_info import get_system_info
+from inventory.gui.styles import (
+    setup_style, 
+    setup_button,
+    center_window
+)
 
 def run_scan_gui(status_label):
 
@@ -229,9 +234,13 @@ def create_window():
 
     window = tk.Tk()
 
-    window.title("Software Scanner")
-    window.geometry("800x900")
+    setup_style()
 
+    window.title("Software Scanner")
+
+    center_window(
+        window, 800, 900
+    )
 
     # ===== HEADER =====
 
@@ -241,7 +250,7 @@ def create_window():
         font=("Arial", 24, "bold")
     )
 
-    title.pack(pady=30)
+    title.pack(pady=15)
 
 
     subtitle = tk.Label(
@@ -257,7 +266,7 @@ def create_window():
 
     button_frame = tk.Frame(window)
 
-    button_frame.pack(pady=40)
+    button_frame.pack(pady=30)
 
 
     scan_button = tk.Button(
@@ -272,6 +281,8 @@ def create_window():
     )
 )
 
+    setup_button(scan_button)
+
     scan_button.pack(pady=10)
 
 
@@ -281,8 +292,10 @@ def create_window():
         text="Wczytaj raport",
         width=25,
         height=2,
-        command=lambda: load_report(program_table, status, search_var, count_label)
+        command=lambda: load_report(program_table, status, search_var, count_label),
     )
+    
+    setup_button(load_button)
 
     load_button.pack(pady=10)
 
@@ -291,7 +304,11 @@ def create_window():
         text="Baza danych",
         width=25,
         height=2
+        
     )
+
+    setup_button(database_button)
+
 
     database_button.pack(pady=10)
 
@@ -301,7 +318,10 @@ def create_window():
         width=25,
         height=2,
         command=open_reports_folder
+        
 )
+
+    setup_button(reports_button)
 
     reports_button.pack(pady=10)
 
