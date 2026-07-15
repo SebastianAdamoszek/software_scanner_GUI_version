@@ -2,7 +2,7 @@ import os
 from pathlib import Path
 
 import tkinter as tk
-from tkinter import ttk
+from tkinter import ttk, filedialog
 
 from inventory.database import create_tables, save_programs
 from inventory.gui import state
@@ -44,12 +44,21 @@ def run_scan_gui(status_label):
     )
 
 
+    status_label.config(
+        text=f"Status: Tworzę raport ({len(state.programs)} programów)"
+    )
+
+    status_label.update()
+
+
     saved_files, report_dir, database_path = save_reports(
         state.programs,
         Path("reports"),
         "all",
         summary,
     )
+
+    report_name = Path(saved_files[0]).stem if saved_files else "Brak raportu"
 
     print(report_dir)
     print(database_path)
@@ -63,8 +72,10 @@ def run_scan_gui(status_label):
 
 
     status_label.config(
-        text=f"Status: Zapisano raport ({len(state.programs)} programów)"
+        text=f"Status: Zapisano- {report_name} ({len(state.programs)} programów)"
     )
+
+    status_label.update()
 
 
 def refresh_program_table(table):
@@ -72,17 +83,7 @@ def refresh_program_table(table):
     for item in table.get_children():
         table.delete(item)
 
-    # for program in state.programs:
-    #     table.insert(
-    #         "",
-    #         "end",
-    #         values=(
-    #             program["name"],
-    #             program["version"],
-    #             program["publisher"],
-    #             program["install_date"],
-    #         )
-    #     )
+
     fill_table(
     table,
     state.programs
@@ -161,6 +162,54 @@ def search_programs(search_var, table):
     )
 
 
+import json
+
+def load_report(table, status_label):
+
+    filename = filedialog.askopenfilename(
+        title="Wybierz plik raportu",
+        initialdir=Path("reports"),
+        filetypes=(
+            ("Pliki JSON", "*.json"),
+            ("Wszystkie pliki", "*.*")
+        )
+    )
+
+    if filename:
+
+        with open(
+            filename,
+            "r",
+            encoding="utf-8"
+        ) as files:
+
+            data = json.load(files)
+
+
+        state.programs = data["programs"]
+
+
+        fill_table(
+            table,
+            state.programs
+        )
+
+
+        report_name = Path(filename).stem
+
+
+        status_label.config(
+            text=f"Status: Wczytano raport- {report_name} ({len(state.programs)} programów)"
+        )
+
+        status_label.update()
+
+
+        return data
+
+    return []
+
+
 def create_window():
 
     window = tk.Tk()
@@ -208,6 +257,18 @@ def create_window():
 )
 
     scan_button.pack(pady=10)
+
+
+
+    load_button = tk.Button(
+        button_frame,
+        text="Wczytaj raport",
+        width=25,
+        height=2,
+        command=lambda: load_report(program_table, status)
+    )
+
+    load_button.pack(pady=10)
 
     database_button = tk.Button(
         button_frame,
