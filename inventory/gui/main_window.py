@@ -164,7 +164,7 @@ def search_programs(search_var, table):
 
 import json
 
-def load_report(table, status_label):
+def load_report(table, status_label,search_var):
 
     filename = filedialog.askopenfilename(
         title="Wybierz plik raportu",
@@ -194,6 +194,10 @@ def load_report(table, status_label):
             state.programs
         )
 
+        search_programs(
+            search_var,
+            table
+        )
 
         report_name = Path(filename).stem
 
@@ -252,7 +256,8 @@ def create_window():
     height=2,
     command=lambda:(
         run_scan_gui(status),
-        refresh_program_table(program_table)
+        refresh_program_table(program_table),
+        search_programs(search_var, program_table)
     )
 )
 
@@ -265,7 +270,7 @@ def create_window():
         text="Wczytaj raport",
         width=25,
         height=2,
-        command=lambda: load_report(program_table, status)
+        command=lambda: load_report(program_table, status, search_var)
     )
 
     load_button.pack(pady=10)
