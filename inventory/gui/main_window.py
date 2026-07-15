@@ -236,6 +236,18 @@ def create_window():
 
     setup_style()
 
+    window.bind_class(
+        "TButton",
+        "<Enter>",
+        lambda e: e.widget.configure(cursor="hand2")
+    )
+
+    window.bind_class(
+        "TButton",
+        "<Leave>",
+        lambda e: e.widget.configure(cursor="")
+    )
+
     window.title("Software Scanner")
 
     center_window(
@@ -244,7 +256,7 @@ def create_window():
 
     # ===== HEADER =====
 
-    title = tk.Label(
+    title = ttk.Label(
         window,
         text="Software Scanner",
         font=("Arial", 24, "bold")
@@ -253,10 +265,10 @@ def create_window():
     title.pack(pady=15)
 
 
-    subtitle = tk.Label(
+    subtitle = ttk.Label(
         window,
         text="System inventory tool",
-        font=("Arial", 12)
+        font=("Segoe UI", 12)
     )
 
     subtitle.pack()
@@ -309,7 +321,7 @@ def create_window():
 
     reports_button = ttk.Button(
         button_frame,
-        text="Otwórz katalog raportów",
+        text="Katalog raportów",
         command=open_reports_folder,
         style="Main.TButton"
     )
@@ -448,7 +460,7 @@ def create_window():
 
     # ===== STATUS =====
 
-    status = tk.Label(
+    status = ttk.Label(
         window,
         text="Status: Gotowy",
         anchor="w"

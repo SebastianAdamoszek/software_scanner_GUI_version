@@ -2,6 +2,8 @@ import tkinter as tk
 from tkinter import ttk
 
 
+
+
 def setup_style():
 
     style = ttk.Style()
@@ -10,8 +12,8 @@ def setup_style():
 
     style.configure(
         "Main.TButton",
-        font=("Arial", 11),
-        padding=(20, 10)
+        font=("Segoe UI", 11),
+        padding=(10, 8)
     )
 
     style.map(
