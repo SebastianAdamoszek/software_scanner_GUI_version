@@ -157,9 +157,9 @@ def search_programs(search_var, table, count_label):
         )
 
         count_label.config(
-            text=f"Znaleziono: {len(state.programs)} z {len(state.programs)}",
+            text=f"Wszystkie programy: {len(state.programs)}",
             font=("Segoe UI", 11, "bold"),
-            foreground="#008000"
+            foreground="#1E90FF"
 
         )
 
@@ -185,6 +185,21 @@ def search_programs(search_var, table, count_label):
         foreground="#008000"
     )
 
+    if len(filtered) == 0:
+
+        count_label.config(
+            text="⚠ Nie znaleziono programu",
+            font=("Segoe UI", 11, "bold"),
+            foreground="#FF8C00"
+        )
+
+    else:
+
+        count_label.config(
+            text=f"Znaleziono: {len(filtered)} z {len(state.programs)}",
+            font=("Segoe UI", 11, "bold"),
+            foreground="#008000"
+        )
 
 import json
 
@@ -393,7 +408,9 @@ def create_window():
 
     count_label = ttk.Label(
         search_frame,
-        text="Znaleziono: 0"
+        text="Filtr programów: 0",
+        font=("Segoe UI", 11, "bold"),
+        foreground="#1E90FF"
     )
 
     count_label.pack(
