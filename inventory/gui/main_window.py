@@ -50,7 +50,8 @@ def run_scan_gui(status_label):
 
 
     status_label.config(
-        text=f"Status: Tworzę raport ({len(state.programs)} programów)"
+        text=f"⏳ Tworzę raport... ({len(state.programs)} programów)",
+        foreground="#1E90FF"
     )
 
     status_label.update()
@@ -77,10 +78,13 @@ def run_scan_gui(status_label):
 
 
     status_label.config(
-        text=f"Status: Zapisano- {report_name} ({len(state.programs)} programów)"
+        text=f"✅ Zapisano {report_name} ({len(state.programs)} programów)",
+        foreground="#008000"
     )
 
     status_label.update()
+
+    
 
 
 def refresh_program_table(table):
@@ -153,7 +157,10 @@ def search_programs(search_var, table, count_label):
         )
 
         count_label.config(
-            text=f"Znaleziono: {len(state.programs)} z {len(state.programs)}"
+            text=f"Znaleziono: {len(state.programs)} z {len(state.programs)}",
+            font=("Segoe UI", 11, "bold"),
+            foreground="#008000"
+
         )
 
         return
@@ -173,7 +180,9 @@ def search_programs(search_var, table, count_label):
 
 
     count_label.config(
-        text=f"Znaleziono: {len(filtered)} z {len(state.programs)}"
+        text=f"Znaleziono: {len(filtered)} z {len(state.programs)}",
+        font=("Segoe UI", 11, "bold"),
+        foreground="#008000"
     )
 
 
@@ -186,7 +195,7 @@ def load_report(table, status_label,search_var, count_label):
         initialdir=Path("reports"),
         filetypes=(
             ("Pliki JSON", "*.json"),
-            ("Wszystkie pliki", "*.*")
+            # ("Wszystkie pliki", "*.*")
         )
     )
 
@@ -316,14 +325,14 @@ def create_window():
     load_button.pack(padx=10,pady=10)
 
 
-    database_button = ttk.Button(
-        button_frame,
-        text="Baza danych",
-        width=BUTTON_WIDTH,
-        style="Main.TButton"
-    )
+    # database_button = ttk.Button(
+    #     button_frame,
+    #     text="Baza danych",
+    #     width=BUTTON_WIDTH,
+    #     style="Main.TButton"
+    # )
 
-    database_button.pack(padx=10,pady=10)
+    # database_button.pack(padx=10,pady=10)
 
 
     reports_button = ttk.Button(
@@ -468,17 +477,31 @@ def create_window():
 
     # ===== STATUS =====
 
-    status = ttk.Label(
+    status_frame = tk.Frame(
         window,
-        text="Status: Gotowy",
+        bd=1,
+        relief="sunken",
+    )
+
+    status_frame.pack(
+        fill="x",
+        padx=20,
+        pady=(0,20)
+    )
+
+
+    status = ttk.Label(
+        status_frame,
+        text="✓ Gotowy",
+        font=("Segoe UI", 11, "bold"),
+        foreground="#006400",
         anchor="w"
     )
 
     status.pack(
-        side="bottom",
         fill="x",
-        padx=20,
-        pady=20
+        padx=10,
+        pady=10
     )
 
 
