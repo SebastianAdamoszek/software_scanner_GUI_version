@@ -11,8 +11,8 @@ from inventory.scanner import scan_installed_programs
 from inventory.summary import build_summary
 from inventory.system_info import get_system_info
 from inventory.gui.styles import (
-    setup_style, 
     SETUP_BUTTON,
+    setup_style, 
     center_window
 )
 
@@ -260,19 +260,9 @@ def create_window():
 
     setup_style()
 
-    # window.bind_class(
-    #     "TButton",
-    #     "<Enter>",
-    #     lambda e: e.widget.configure(cursor="hand2")
-    # )
+    # window.configure(cursor="arrow")
 
-    # window.bind_class(
-    #     "TButton",
-    #     "<Leave>",
-    #     lambda e: e.widget.configure(cursor="")
-    # )
-
-    window.title("Software Scanner")
+    window.title("Software Scanner for windows")
 
     center_window(
         window, 800, 900
