@@ -12,7 +12,7 @@ from inventory.summary import build_summary
 from inventory.system_info import get_system_info
 from inventory.gui.styles import (
     setup_style, 
-    # setup_button,
+    SETUP_BUTTON,
     center_window
 )
 
@@ -256,23 +256,21 @@ def load_report(table, status_label,search_var, count_label):
 
 def create_window():
 
-    BUTTON_WIDTH = 30
-
     window = tk.Tk()
 
     setup_style()
 
-    window.bind_class(
-        "TButton",
-        "<Enter>",
-        lambda e: e.widget.configure(cursor="hand2")
-    )
+    # window.bind_class(
+    #     "TButton",
+    #     "<Enter>",
+    #     lambda e: e.widget.configure(cursor="hand2")
+    # )
 
-    window.bind_class(
-        "TButton",
-        "<Leave>",
-        lambda e: e.widget.configure(cursor="")
-    )
+    # window.bind_class(
+    #     "TButton",
+    #     "<Leave>",
+    #     lambda e: e.widget.configure(cursor="")
+    # )
 
     window.title("Software Scanner")
 
@@ -308,17 +306,15 @@ def create_window():
 
     button_frame.pack(pady=30)
 
-
     scan_button = ttk.Button(
         button_frame,
         text="Skanuj komputer",
-        style="Main.TButton",
+        **SETUP_BUTTON,
         command=lambda: (
             run_scan_gui(status),
             refresh_program_table(program_table),
             search_programs(search_var, program_table, count_label)
         ),
-        width=BUTTON_WIDTH,
     )
 
     scan_button.pack(padx=10,pady=10)
@@ -327,14 +323,13 @@ def create_window():
     load_button = ttk.Button(
         button_frame,
         text="Wczytaj raport",
-        style="Main.TButton",
+        **SETUP_BUTTON,
         command=lambda: load_report(
             program_table,
             status,
             search_var,
             count_label
         ),
-        width=BUTTON_WIDTH,
     )
 
     load_button.pack(padx=10,pady=10)
@@ -353,9 +348,8 @@ def create_window():
     reports_button = ttk.Button(
         button_frame,
         text="Katalog raportów",
-        style="Main.TButton",
+        **SETUP_BUTTON,
         command=open_reports_folder,
-        width=BUTTON_WIDTH,
     )
 
     reports_button.pack(padx=10, pady=10)

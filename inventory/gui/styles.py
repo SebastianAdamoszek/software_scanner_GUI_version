@@ -1,7 +1,11 @@
 import tkinter as tk
 from tkinter import ttk
 
-
+SETUP_BUTTON = {
+    "style": "Main.TButton",
+    "cursor": "hand2",
+    "width": 30 
+    }
 
 
 def setup_style():
@@ -15,37 +19,16 @@ def setup_style():
         background="#acacac",
         foreground="black",
         font=("Segoe UI", 11),
-        padding=(15, 8)
+        padding=(15, 8),
     )
 
     style.map(
         "Main.TButton",
         background=[
             ("pressed", "#9da0a3"),
-            ("active", "#becaae")
-        ]
+            ("active", "gray")
+        ],
     )
-
-
-# def setup_button(button):
-
-#     button.config(
-#         cursor="hand2"
-#     )
-
-#     button.bind(
-#         "<Enter>",
-#         lambda e: button.configure(
-#             cursor="hand2"
-#         )
-#     )
-
-#     button.bind(
-#         "<Leave>",
-#         lambda e: button.configure(
-#             cursor="arrow"
-#         )
-#     )
 
 
 def center_window(window, width, height):
